@@ -2,5 +2,7 @@ FROM python:3.11-slim
 WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
-COPY . .
+COPY app.py train_model.py ./
+COPY model.pkl scaler.pkl feature_columns.pkl ./
+EXPOSE 5001
 CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "5001"]

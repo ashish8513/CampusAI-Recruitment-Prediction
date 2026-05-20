@@ -7,7 +7,13 @@ import type {
   InterviewPrepResult,
 } from "@/types/career";
 
-const API = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:4000";
+/** Vercel: empty = same-origin /api proxy. Local/Docker: set NEXT_PUBLIC_API_URL */
+const API =
+  process.env.NEXT_PUBLIC_API_URL !== undefined && process.env.NEXT_PUBLIC_API_URL !== ""
+    ? process.env.NEXT_PUBLIC_API_URL
+    : typeof window !== "undefined"
+      ? ""
+      : process.env.BACKEND_URL || "http://127.0.0.1:4000";
 
 const client = axios.create({ baseURL: API, timeout: 60000 });
 

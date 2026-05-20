@@ -12,7 +12,7 @@ import { fallbackResumeMatch, fallbackResumeScore } from "./resumeFallback";
 dotenv.config();
 
 const app = express();
-const PORT = process.env.GATEWAY_PORT || 4000;
+const PORT = Number(process.env.PORT || process.env.GATEWAY_PORT || 4000);
 const ML_URL = process.env.ML_SERVICE_URL || "http://127.0.0.1:5001";
 const AI_URL = process.env.AI_SERVICE_URL || "http://127.0.0.1:5002";
 const AUTH_URL = process.env.AUTH_SERVICE_URL || "http://127.0.0.1:8081";

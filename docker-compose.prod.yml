@@ -1,0 +1,59 @@
+# Production Docker — run: docker compose -f docker-compose.prod.yml up --build
+# UI: http://localhost:3000  |  API: http://localhost:4000
+
+services:
+  ml-service:
+    build: ./services/ml-service
+    image: ashish8513/campusai-ml:latest
+    ports: ["5001:5001"]
+    restart: unless-stopped
+
+  ai-service:
+    build:
+      context: .
+      dockerfile: services/ai-service/Dockerfile
+    image: ashish8513/campusai-ai:latest
+    ports: ["5002:5002"]
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+    restart: unless-stopped
+
+  api-gateway:
+    build: ./services/api-gateway
+    image: ashish8513/campusai-gateway:latest
+    ports: ["4000:4000"]
+    environment:
+      - ML_SERVICE_URL=http://ml-service:5001
+      - AI_SERVICE_URL=http://ai-service:5002
+      - AUTH_SERVICE_URL=http://auth-service:8081
+      - MONGODB_URI=${MONGODB_URI:-mongodb://mongodb:27017/campus_ai}
+    depends_on: [ml-service, ai-service]
+    restart: unless-stopped
+
+  auth-service:
+    build: ./services/auth-service
+    image: ashish8513/campusai-auth:latest
+    ports: ["8081:8081"]
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        NEXT_PUBLIC_API_URL: http://localhost:4000
+    image: ashish8513/campusai-frontend:latest
+    ports: ["3000:3000"]
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:4000
+      - BACKEND_URL=http://api-gateway:4000
+    depends_on: [api-gateway]
+    restart: unless-stopped
+
+  mongodb:
+    image: mongo:7
+    ports: ["27017:27017"]
+    volumes: [mongo_data:/data/db]
+    profiles: ["full"]
+
+volumes:
+  mongo_data:

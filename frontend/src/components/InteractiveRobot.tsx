@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useEffect, useCallback, type RefObject } from "react";
+import React, { useRef, useState, useEffect, useCallback } from "react";
 
 type Size = "sm" | "md" | "lg";
 
@@ -18,7 +18,7 @@ function EyePupil({
   pupilClass,
   highlightClass,
 }: {
-  eyeRef: RefObject<HTMLDivElement | null>;
+  eyeRef: React.RefObject<HTMLDivElement>;
   pupil: { x: number; y: number };
   blink: boolean;
   socketClass: string;

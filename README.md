@@ -85,6 +85,17 @@ project-code/
 
 ---
 
+## Live Demo Links
+
+| Platform | Link |
+|----------|------|
+| **GitHub** | https://github.com/ashish8513/CampusAI-Recruitment-Prediction |
+| **Vercel UI** | Import repo on [vercel.com](https://vercel.com) → Root: `frontend` → See [DEPLOY.md](DEPLOY.md) |
+| **Docker local** | `docker compose -f docker-compose.prod.yml up --build` → http://localhost:3000 |
+| **Docker Hub** | `ashish8513/campusai-frontend` (push via DEPLOY.md) |
+
+---
+
 ## Quick Start (Windows)
 
 ### 1. Prerequisites

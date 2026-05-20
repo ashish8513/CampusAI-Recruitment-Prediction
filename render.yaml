@@ -1,0 +1,29 @@
+# Deploy backend free on Render: https://render.com
+# After deploy, set BACKEND_URL on Vercel to your gateway URL
+
+services:
+  - type: web
+    name: campusai-ml
+    runtime: python
+    rootDir: services/ml-service
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app:app --host 0.0.0.0 --port $PORT
+    plan: free
+
+  - type: web
+    name: campusai-gateway
+    runtime: node
+    rootDir: services/api-gateway
+    buildCommand: npm install && npm run build
+    startCommand: node dist/index.js
+    plan: free
+    envVars:
+      - key: ML_SERVICE_URL
+        fromService:
+          name: campusai-ml
+          type: web
+          property: hostport
+      - key: AI_SERVICE_URL
+        value: https://campusai-ai.onrender.com
+      - key: GATEWAY_PORT
+        value: "4000"
