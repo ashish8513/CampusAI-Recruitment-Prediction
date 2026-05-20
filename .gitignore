@@ -1,0 +1,14 @@
+node_modules/
+.next/
+dist/
+__pycache__/
+*.pyc
+.env
+chroma_db/
+.DS_Store
+*.log
+.idea/
+.vscode/
+frontend/.next/
+services/api-gateway/node_modules/
+*.tsbuildinfo

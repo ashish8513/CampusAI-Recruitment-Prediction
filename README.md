@@ -1,49 +1,197 @@
-# Campus Recruitment Prediction Project
+# CampusAI — Full-Stack Gen AI Campus Recruitment Platform
 
-This project aims to predict the salary of students in campus recruitment using a dataset named `train.csv`. The dataset contains the following columns: sl_no, gender, ssc_p, ssc_b, hsc_p, hsc_b, degree_p, degree_t, workex, etest_p, specialisation, mba_p, status, and salary.
+> **College Top Project Ready** · Microservices · ML Salary Prediction · RAG Career Coach · LangChain AI Agents
 
-## Table of Contents
-- [Introduction](#introduction)
-- [Project Structure](#project-structure)
-- [Data Processing and Modeling](#data-processing-and-modeling)
-- [Flask Web Application](#flask-web-application)
+![Stack](https://img.shields.io/badge/Next.js-14-black) ![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue) ![LangChain](https://img.shields.io/badge/LangChain-RAG-green) ![Docker](https://img.shields.io/badge/Docker-Compose-blue) ![Spring](https://img.shields.io/badge/Spring_Boot-3.2-green)
 
-## Introduction
-In this project, we analyze the provided dataset and build a predictive model for campus recruitment. We first perform data processing and exploratory data analysis (EDA) using a Jupyter Notebook (`notebook.ipynb`). Next, we implement a Flask web application (`app.py`) to deploy the trained predictive model and allow users to make predictions based on the provided input.
+---
 
-## Project Structure
-- `train.csv`: Dataset containing recruitment-related information.
-- `notebook.ipynb`: Jupyter Notebook containing data preprocessing, EDA, and model selection.
-- `app.py`: Flask web application for model deployment.
-- `templates/`: Directory containing HTML templates for the web application.
-  - `index.html`: Homepage of the web application.
-  - `prediction.html`: Page displaying predictions.
-- `requirements.txt`: File listing all the necessary libraries for running the web app.
-- `model.pkl`: Pickled file containing the trained predictive model (Ridge model).
-- `scaler.pkl`: Pickled file containing the scaler used for standardization.
+## Project Highlights (For Judges / Submission)
 
-## Data Processing and Modeling
-In the Jupyter Notebook (`notebook.ipynb`), we perform the following steps:
-1. Import necessary libraries.
-2. Load the dataset (`train.csv`).
-3. Preprocess the data by dropping unnecessary columns and handling missing values.
-4. Visualize data through various plots and charts.
-5. Perform one-hot encoding for categorical variables.
-6. Split the dataset into training and testing sets.
-7. Standardize the data using StandardScaler.
-8. Explore and select the best scoring model using GridSearchCV and ShuffleSplit.
-9. Save the best-fitted model and scaler using pickle (`model.pkl` and `scaler.pkl`).
+| Category | Implementation |
+|----------|----------------|
+| **Gen AI** | OpenAI APIs, LangChain, RAG, Prompt Engineering, AI Agents, Chroma Vector DB |
+| **Languages** | TypeScript, JavaScript, Java, Python |
+| **Frontend** | React, Next.js 14, Tailwind CSS, Framer Motion (SPA home + 5 pages) |
+| **Backend** | Node.js Express Gateway, FastAPI ML/AI, Spring Boot Auth |
+| **Databases** | MongoDB (logs), CSV analytics, Chroma (vectors) |
+| **DevOps** | Docker Compose, GitHub Actions CI/CD, AWS-ready layout |
+| **ML** | Ridge Regression + StandardScaler on 215 MBA records |
 
-## Flask Web Application
-The Flask web application (`app.py`) is created to deploy the trained predictive model. It allows users to input their information and receive predictions regarding their placement status and expected salary. The web application consists of two main HTML templates:
-- `index.html`: The homepage where users input their details.
-- `prediction.html`: The page displaying the predicted placement status and salary.
+---
 
-To run the web application, use the libraries specified in `requirements.txt`.
+## Architecture (Microservices)
 
-For any questions or suggestions, please feel free to contact me on LinkedIn.
+```
+┌─────────────────────────────────────────────────────────────┐
+│  Frontend (Next.js + TypeScript)          :3000             │
+│  SPA Home · Predict · AI Coach · Analytics · About          │
+└──────────────────────────┬──────────────────────────────────┘
+                           │
+┌──────────────────────────▼──────────────────────────────────┐
+│  API Gateway (Node.js + TypeScript)         :4000           │
+└─┬──────────────┬──────────────┬──────────────┬──────────────┘
+  │              │              │              │
+  ▼              ▼              ▼              ▼
+ML :5001    AI :5002    Auth :8081    MongoDB :27017
+(FastAPI)   (RAG+Agent) (Spring)     (chat logs)
+```
 
-## Webpage Glimpse:
+---
 
-![Index](index.png)
-![Prediction](prediction.png)
+## Folder Structure
+
+```
+project-code/
+├── frontend/                 # Next.js 14 + TypeScript
+│   └── src/
+│       ├── app/              # Pages (SPA home + routes)
+│       ├── components/       # UI components
+│       ├── lib/api.ts        # API client
+│       └── types/
+├── services/
+│   ├── api-gateway/          # Express + MongoDB
+│   ├── ml-service/           # FastAPI salary prediction
+│   ├── ai-service/           # LangChain RAG + Agents
+│   └── auth-service/         # Java Spring Boot
+├── data/
+│   ├── train.csv
+│   └── knowledge/            # RAG documents
+├── scripts/start-dev.ps1     # One-click Windows start
+├── docker-compose.yml
+├── .github/workflows/ci.yml
+├── legacy/                   # Original Flask app (reference)
+│   ├── app.py
+│   └── templates/
+└── notebook.ipynb
+```
+
+---
+
+## Pages
+
+| Route | Description |
+|-------|-------------|
+| `/` | **Single-page application** — Hero, Features, How it Works, Tech Stack |
+| `/dashboard` | Student dashboard — stats, quick actions, services status |
+| `/predict` | ML salary prediction form |
+| `/ai-coach` | RAG chat + LangChain AI Agent career plan |
+| `/analytics` | Dataset statistics dashboard |
+| `/career-hub` | Resume match, skill gaps, scoring, interview & GD prep |
+| `/coding-profiles` | GitHub, LinkedIn, HackerRank, LeetCode & more profile links |
+| `/about` | Project documentation for submission |
+
+**Color theme:** Mint `#a5dacc` · Accent `#007BFF` · White cards (original campus branding)
+
+---
+
+## Quick Start (Windows)
+
+### 1. Prerequisites
+- Node.js 20+, Python 3.11+, Java 17+ (optional for auth)
+- Copy `.env.example` → `.env` and add `OPENAI_API_KEY` (optional)
+
+### 2. Train ML model (if `model.pkl` missing)
+```powershell
+cd services\ml-service
+pip install pandas scikit-learn
+python train_model.py
+```
+Or run `notebook.ipynb` and copy `model.pkl`, `scaler.pkl` to `services/ml-service/`.
+
+### 3. Start all services
+```powershell
+.\scripts\start-dev.ps1
+```
+
+### 4. Open browser
+**http://localhost:3000**
+
+---
+
+## Manual Start (step by step)
+
+```powershell
+# Terminal 1 — ML
+cd services\ml-service
+pip install -r requirements.txt
+uvicorn app:app --port 5001
+
+# Terminal 2 — AI (RAG works offline; OpenAI optional)
+cd services\ai-service
+pip install -r requirements.txt
+uvicorn main:app --port 5002
+
+# Terminal 3 — Gateway
+cd services\api-gateway
+npm install && npm run dev
+
+# Terminal 4 — Frontend
+cd frontend
+npm install && npm run dev
+```
+
+---
+
+## Docker (Full Stack)
+
+```bash
+docker compose up --build
+```
+
+---
+
+## Gen AI Stack Details
+
+| Tech | File | Purpose |
+|------|------|---------|
+| **OpenAI** | `services/ai-service/rag_engine.py` | LLM answers with RAG context |
+| **LangChain** | `rag_engine.py`, `agent.py` | Chains, prompts, agents |
+| **RAG** | `data/knowledge/` + Chroma | Retrieval-augmented career advice |
+| **Vector DB** | Chroma (`chroma_db/`) | Embeddings storage |
+| **AI Agents** | `agent.py` | Multi-step readiness + action plan |
+| **Prompt Engineering** | `SYSTEM_PROMPT` in RAG | Structured coach persona |
+
+Without `OPENAI_API_KEY`, the system runs in **offline RAG fallback mode** (still demo-ready).
+
+---
+
+## API Endpoints (Gateway :4000)
+
+| Method | Path | Description |
+|--------|------|-------------|
+| GET | `/health` | All services health |
+| POST | `/api/predict` | Salary prediction |
+| POST | `/api/chat` | RAG career Q&A |
+| POST | `/api/agent/plan` | AI agent career plan |
+| POST | `/api/resume/match` | Resume vs company + skill gaps + GD |
+| POST | `/api/resume/score` | Resume scoring (5 categories) |
+| POST | `/api/interview/prep` | HR, technical, GD, checklist |
+| GET | `/api/companies` | Target company list |
+| GET | `/api/analytics` | Dataset stats |
+| POST | `/api/auth/login` | Spring auth (demo JWT) |
+
+---
+
+## College Submission Checklist
+
+- [x] Full-stack microservices architecture diagram
+- [x] TypeScript frontend with multiple pages
+- [x] ML model with real dataset (`train.csv`)
+- [x] Gen AI: RAG + LangChain + Agents + Vector DB
+- [x] OpenAI integration (with offline fallback)
+- [x] MongoDB logging, Spring auth, Docker, CI/CD
+- [x] README with run instructions
+- [x] Original campus color branding preserved
+
+---
+
+## Legacy Flask App
+
+Original single-file app moved to `legacy/` for reference. Use the new **Next.js frontend** for submission.
+
+---
+
+## Author
+
+Campus Recruitment Prediction — Enhanced to **CampusAI** Full-Stack Gen AI Platform for college project submission.
